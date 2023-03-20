@@ -57,8 +57,12 @@
 
 .postTitle a {
   color: inherit;
+  display: block;
 }
-
+.postTitle a:hover {
+  color: inherit;
+  color: #75409A;
+}
 .postDescription {
   margin-top: 0;
   margin-bottom: 12px;

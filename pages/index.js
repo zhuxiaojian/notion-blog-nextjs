@@ -10,7 +10,7 @@ export default function Home({ posts }) {
   return (
     <div>
       <Head>
-        <title>Notion Next.js blog</title>
+        <title>Notion Next.js</title>
         <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" />
       </Head>
 
@@ -47,8 +47,8 @@ export default function Home({ posts }) {
               </g>
             </svg>
           </div>
-          <h1>Next.js blog powered by Notion API</h1>
-          <p>
+          {/* <h1>Next.js blog powered by Notion API</h1> */}
+          {/* <p>
             This is an example of a Next.js blog with data fetched with Notions
             API. The data comes from{" "}
             <a href={`https://www.notion.so/${databaseId}`}>this table</a>. Get
@@ -61,7 +61,7 @@ export default function Home({ posts }) {
               my blogpost
             </a>{" "}
             on building your own.
-          </p>
+          </p> */}
         </header>
 
         <h2 className={styles.heading}>All Posts</h2>
@@ -84,7 +84,7 @@ export default function Home({ posts }) {
                 </h3>
 
                 <p className={styles.postDescription}>{date}</p>
-                <Link href={`/${post.id}`}>Read post →</Link>
+                <div style={{textAlign: "left"}}><Link href={`/${post.id}`}>查看更多 →</Link></div>
               </li>
             );
           })}
