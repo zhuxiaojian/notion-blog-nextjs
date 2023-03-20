@@ -11,7 +11,7 @@ export default function Home({ posts }) {
     <div>
       <Head>
         <title>Notion Next.js blog</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" />
       </Head>
 
       <main className={styles.container}>

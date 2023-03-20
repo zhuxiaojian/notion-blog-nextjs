@@ -1,13 +1,14 @@
 .container {
   padding: 0 20px;
-  max-width: 700px;
-  margin: 0 auto;
+  max-width: 1000px;
+  margin: 100px auto;
   line-height: 1.5;
   white-space: pre-line;
 }
 
 .container h1 {
-  font-size: 32px;
+  font-size: 40px;
+  margin-bottom: 20px;;
 }
 
 .container img {
@@ -64,20 +65,7 @@
   flex-wrap: wrap;
 }
 
-.file {
-  padding: 2px 4px;
-  text-decoration: none;
-}
 
-.file a {
-  color: inherit;
-}
-
-.file:hover {
-  background: rgba(55, 53, 47, 0.08);
-  cursor: pointer;
-  border-radius: 2px;
-}
 
 .italic {
   font-style: italic;

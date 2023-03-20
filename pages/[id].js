@@ -18,12 +18,12 @@ export const Text = ({ text }) => {
       <span
         className={[
           bold ? styles.bold : "",
+          color ? "notion-" + color : "",
           code ? styles.code : "",
           italic ? styles.italic : "",
           strikethrough ? styles.strikethrough : "",
           underline ? styles.underline : "",
         ].join(" ")}
-        style={color !== "default" ? { color } : {}}
         key={text.content}
       >
         {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
@@ -40,9 +40,9 @@ const renderNestedList = (block) => {
   const isNumberedList = value.children[0].type === "numbered_list_item";
 
   if (isNumberedList) {
-    return <ol>{value.children.map((block) => renderBlock(block))}</ol>;
+    return <ol class="notion-list notion-list-disc">{value.children.map((block) => renderBlock(block))}</ol>;
   }
-  return <ul>{value.children.map((block) => renderBlock(block))}</ul>;
+  return <ul classs="notion-list notion-list-disc">{value.children.map((block) => renderBlock(block))}</ul>;
 };
 
 const renderBlock = (block) => {
@@ -58,27 +58,27 @@ const renderBlock = (block) => {
       );
     case "heading_1":
       return (
-        <h1>
+        <h1 class=" notion-h1">
           <Text text={value.rich_text} />
         </h1>
       );
     case "heading_2":
       return (
-        <h2>
+        <h2 class="text-4xl">
           <Text text={value.rich_text} />
         </h2>
       );
     case "heading_3":
       return (
-        <h3>
+        <h3 class="notion-h notion-h3">
           <Text text={value.rich_text} />
         </h3>
       );
     case "bulleted_list": {
-      return <ul>{value.children.map((child) => renderBlock(child))}</ul>;
+      return <ul class = "notion-list notion-list-disc">{value.children.map((child) => renderBlock(child))}</ul>;
     }
     case "numbered_list": {
-      return <ol>{value.children.map((child) => renderBlock(child))}</ol>;
+      return <ol class="notion-list notion-list-disc">{value.children.map((child) => renderBlock(child))}</ol>;
     }
     case "bulleted_list_item":
     case "numbered_list_item":
@@ -120,15 +120,17 @@ const renderBlock = (block) => {
         value.type === "external" ? value.external.url : value.file.url;
       const caption = value.caption ? value.caption[0]?.plain_text : "";
       return (
-        <figure>
-          <img src={src} alt={caption} />
+        <figure className="notion-asset-wrapper notion-asset-wrapper-image">
+          <div className="wrap">
+            <img src={src} alt={caption} />
+          </div>
           {caption && <figcaption>{caption}</figcaption>}
         </figure>
       );
     case "divider":
       return <hr key={id} />;
     case "quote":
-      return <blockquote key={id}>{value.rich_text[0].plain_text}</blockquote>;
+      return <blockquote class="notion-quote" key={id}>{value.rich_text[0].plain_text}</blockquote>;
     case "code":
       return (
         <pre className={styles.pre}>
@@ -144,13 +146,11 @@ const renderBlock = (block) => {
       const lastElementInArray = splitSourceArray[splitSourceArray.length - 1];
       const caption_file = value.caption ? value.caption[0]?.plain_text : "";
       return (
-        <figure>
-          <div className={styles.file}>
-            📎{" "}
-            <Link href={src_file} passHref>
-              {lastElementInArray.split("?")[0]}
+        <figure class="notion-file ">
+            
+            <Link class="notion-file-link" href={src_file} passHref>
+              <span><svg class="notion-file-icon" viewBox="0 0 30 30"><path d="M22,8v12c0,3.866-3.134,7-7,7s-7-3.134-7-7V8c0-2.762,2.238-5,5-5s5,2.238,5,5v12c0,1.657-1.343,3-3,3s-3-1.343-3-3V8h-2v12c0,2.762,2.238,5,5,5s5-2.238,5-5V8c0-3.866-3.134-7-7-7S6,4.134,6,8v12c0,4.971,4.029,9,9,9s9-4.029,9-9V8H22z"></path></svg></span> {lastElementInArray.split("?")[0]}
             </Link>
-          </div>
           {caption_file && <figcaption>{caption_file}</figcaption>}
         </figure>
       );
@@ -194,6 +194,15 @@ const renderBlock = (block) => {
     case "column": {
       return <div>{block.children.map((child) => renderBlock(child))}</div>;
     }
+    case "callout": {
+      return (
+        <div class="notion-callout notion-gray_background_co">
+          <div class="notion-page-icon-inline notion-page-icon-span"><span class="notion-page-icon" role="img"
+            aria-label="💡">💡</span></div>
+          <div class="notion-callout-text">{(value.rich_text[0].text.content)}</div>
+        </div>
+      )
+    }
     default:
       return `❌ Unsupported block (${
         type === "unsupported" ? "unsupported by Notion API" : type
@@ -209,20 +218,20 @@ export default function Post({ page, blocks }) {
     <div>
       <Head>
         <title>{page.properties.Name.title[0].plain_text}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" />
       </Head>
 
       <article className={styles.container}>
-        <h1 className={styles.name}>
+        <h1 className="notion-h2">
           <Text text={page.properties.Name.title} />
         </h1>
         <section>
           {blocks.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
           ))}
-          <Link href="/" className={styles.back}>
+          {/* <Link href="/" className={styles.back}>
             ← Go home
-          </Link>
+          </Link> */}
         </section>
       </article>
     </div>
@@ -231,16 +240,19 @@ export default function Post({ page, blocks }) {
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
+
   return {
-    paths: database.map((page) => ({ params: { id: page.id } })),
-    fallback: true,
+    paths: database.map((page) => ({ params: { id: page.id, page_id: database.id} })),
+    fallback: true
   };
 };
 
 export const getStaticProps = async (context) => {
   const { id } = context.params;
+
   const page = await getPage(id);
   const blocks = await getBlocks(id);
+  // console.log(blocks);
 
   return {
     props: {
