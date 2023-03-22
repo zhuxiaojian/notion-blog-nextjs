@@ -58,27 +58,27 @@ const renderBlock = (block) => {
       );
     case "heading_1":
       return (
-        <h1 class=" notion-h1">
+        <h1 className=" notion-h1">
           <Text text={value.rich_text} />
         </h1>
       );
     case "heading_2":
       return (
-        <h2 class="text-4xl">
+        <h2 className="text-4xl">
           <Text text={value.rich_text} />
         </h2>
       );
     case "heading_3":
       return (
-        <h3 class="notion-h notion-h3">
+        <h3 className="notion-h notion-h3">
           <Text text={value.rich_text} />
         </h3>
       );
     case "bulleted_list": {
-      return <ul class = "notion-list notion-list-disc">{value.children.map((child) => renderBlock(child))}</ul>;
+      return <ul className = "notion-list notion-list-disc">{value.children.map((child) => renderBlock(child))}</ul>;
     }
     case "numbered_list": {
-      return <ol class="notion-list notion-list-disc">{value.children.map((child) => renderBlock(child))}</ol>;
+      return <ol className="notion-list notion-list-disc">{value.children.map((child) => renderBlock(child))}</ol>;
     }
     case "bulleted_list_item":
     case "numbered_list_item":
@@ -130,7 +130,7 @@ const renderBlock = (block) => {
     case "divider":
       return <hr key={id} />;
     case "quote":
-      return <blockquote class="notion-quote" key={id}>{value.rich_text[0].plain_text}</blockquote>;
+      return <blockquote className="notion-quote" key={id}>{value.rich_text[0].plain_text}</blockquote>;
     case "code":
       return (
         <pre className={styles.pre}>
@@ -146,10 +146,10 @@ const renderBlock = (block) => {
       const lastElementInArray = splitSourceArray[splitSourceArray.length - 1];
       const caption_file = value.caption ? value.caption[0]?.plain_text : "";
       return (
-        <figure class="notion-file ">
+        <figure className="notion-file ">
             
-            <Link class="notion-file-link" href={src_file} passHref>
-              <span><svg class="notion-file-icon" viewBox="0 0 30 30"><path d="M22,8v12c0,3.866-3.134,7-7,7s-7-3.134-7-7V8c0-2.762,2.238-5,5-5s5,2.238,5,5v12c0,1.657-1.343,3-3,3s-3-1.343-3-3V8h-2v12c0,2.762,2.238,5,5,5s5-2.238,5-5V8c0-3.866-3.134-7-7-7S6,4.134,6,8v12c0,4.971,4.029,9,9,9s9-4.029,9-9V8H22z"></path></svg></span> {lastElementInArray.split("?")[0]}
+            <Link className="notion-file-link" href={src_file} passHref>
+              <span><svg className="notion-file-icon" viewBox="0 0 30 30"><path d="M22,8v12c0,3.866-3.134,7-7,7s-7-3.134-7-7V8c0-2.762,2.238-5,5-5s5,2.238,5,5v12c0,1.657-1.343,3-3,3s-3-1.343-3-3V8h-2v12c0,2.762,2.238,5,5,5s5-2.238,5-5V8c0-3.866-3.134-7-7-7S6,4.134,6,8v12c0,4.971,4.029,9,9,9s9-4.029,9-9V8H22z"></path></svg></span> {lastElementInArray.split("?")[0]}
             </Link>
           {caption_file && <figcaption>{caption_file}</figcaption>}
         </figure>
@@ -162,27 +162,55 @@ const renderBlock = (block) => {
         </a>
       );
     case "table": {
-      return (
-        <table className={styles.table}>
-          <tbody>
-            {block.children?.map((child, i) => {
-              const RowElement =
-                value.has_column_header && i == 0 ? "th" : "td";
-              return (
-                <tr key={child.id}>
-                  {child.table_row?.cells?.map((cell, i) => {
-                    return (
-                      <RowElement key={`${cell.plain_text}-${i}`}>
-                        <Text text={cell} />
-                      </RowElement>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      );
+      if (block['table'].table_width == 2) {
+        return (
+          <table data="2" className="charts-css column show-labels show-4-secondary-axes">
+            
+            <tbody>
+              {block.children?.map((child, i) => {
+                
+                return (
+                  <tr key={child.id}>
+                    {child.table_row?.cells?.map((cell, i) => {
+                      const RowElement =
+                        /* value.has_column_header && */ i == 0 ? "th" : "td";
+                      return (
+                        // <th scope="row">2016</th>
+                        <RowElement style={{ "--size": ` ${(cell[0].plain_text)}` }} key={`${cell.plain_text}-${i}`} data={i}>
+                          {i == 0 ?<Text text={cell} /> : cell[0].plain_text*10000/100}{i == 1 ? "%":""}
+                        </RowElement>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        );
+      } else {
+        return (
+          <table className={styles.table}>
+            <tbody>
+              {block.children?.map((child, i) => {
+                const RowElement =
+                  value.has_column_header && i == 0 ? "th" : "td";
+                return (
+                  <tr key={child.id}>
+                    {child.table_row?.cells?.map((cell, i) => {
+                      return (
+                        <RowElement key={`${cell.plain_text}-${i}`}>
+                          <Text text={cell} />
+                        </RowElement>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        );
+      }
+      
     }
     case "column_list": {
       return (
@@ -196,10 +224,10 @@ const renderBlock = (block) => {
     }
     case "callout": {
       return (
-        <div class="notion-callout notion-gray_background_co">
-          <div class="notion-page-icon-inline notion-page-icon-span"><span class="notion-page-icon" role="img"
+        <div className="notion-callout notion-gray_background_co">
+          <div className="notion-page-icon-inline notion-page-icon-span"><span className="notion-page-icon" role="img"
             aria-label="💡">💡</span></div>
-          <div class="notion-callout-text">{(value.rich_text[0].text.content)}</div>
+          <div className="notion-callout-text">{(value.rich_text[0].text.content)}</div>
         </div>
       )
     }
@@ -252,7 +280,7 @@ export const getStaticProps = async (context) => {
 
   const page = await getPage(id);
   const blocks = await getBlocks(id);
-  // console.log(blocks);
+  console.log(blocks);
 
   return {
     props: {
