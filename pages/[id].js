@@ -164,7 +164,7 @@ const renderBlock = (block) => {
     case "table": {
       if (block['table'].table_width == 2) {
         return (
-          <table data="2" className="charts-css column show-labels show-4-secondary-axes">
+          <table data="2" className="charts-css column show-labels">
             
             <tbody>
               {block.children?.map((child, i) => {
