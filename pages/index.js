@@ -10,13 +10,13 @@ export default function Home({ posts }) {
   return (
     <div>
       <Head>
-        <title>Notion Next.js</title>
+        <title>Stay Young, Stay Simple</title>
         <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" />
       </Head>
 
       <main className={styles.container}>
         <header className={styles.header}>
-          <div className={styles.logos}>
+          {/* <div className={styles.logos}>
             <svg
               height="80"
               width="80"
@@ -46,7 +46,7 @@ export default function Home({ posts }) {
                 ></path>
               </g>
             </svg>
-          </div>
+          </div> */}
           {/* <h1>Next.js blog powered by Notion API</h1> */}
           {/* <p>
             This is an example of a Next.js blog with data fetched with Notions

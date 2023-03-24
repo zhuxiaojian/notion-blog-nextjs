@@ -280,7 +280,7 @@ export const getStaticProps = async (context) => {
 
   const page = await getPage(id);
   const blocks = await getBlocks(id);
-  console.log(blocks);
+  // console.log(blocks);
 
   return {
     props: {
