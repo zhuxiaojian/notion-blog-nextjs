@@ -456,14 +456,55 @@ const renderBlock = (block) => {
         </div>
       )
     }
+    case "child_database": {
+      return (
+        <div></div>
+      )
+    }
     default:
-      return `❌ Unsupported block (${
-        type === "unsupported" ? "unsupported by Notion API" : type
-      })`;
+      // console.log(block);
+      if (!block.type) {
+        return (
+          <table className={styles.table}>
+            <tbody>
+              {Object.keys(block.properties).reverse()?.map((child, i) => {
+                // console.log(child,i);
+                const RowElement = "td";
+                return (
+                  <tr key={i}>
+                    {/* {console.log(block.properties)} */}
+                    {/* {console.log(block.properties[child])} */}
+                    {block.properties[child]?.title?.map((cell, i) => {
+                      return (
+                        <th key={`${cell.plain_text}-${i}`}>
+                          {cell.plain_text}
+                        </th>
+                      );
+                    })}
+                    {block.properties[child]?.rich_text?.map((cell, i) => {
+                      // { console.log(cell) }
+                      return (
+                        <RowElement key={`${cell.plain_text}-${i}`}>
+                          {cell.plain_text}
+                        </RowElement>
+                      );
+                    })}
+                    
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        );
+      } else {
+        return `❌ Unsupported block (${type === "unsupported" ? "unsupported by Notion API" : type
+          })`;
+      }
+      
   }
 };
 
-export default function Post({ page, blocks }) {
+export default function Post({ page, blocks, database }) {
   if (!page || !blocks) {
     return <div />;
   }
@@ -482,6 +523,11 @@ export default function Post({ page, blocks }) {
           {blocks.map((block) => (
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
           ))}
+          {
+            database.map((databases) => (
+              <Fragment key={databases.id}>{renderBlock(databases)}</Fragment>
+            ))
+          }
           {/* <Link href="/" className={styles.back}>
             ← Go home
           </Link> */}
@@ -505,12 +551,18 @@ export const getStaticProps = async (context) => {
 
   const page = await getPage(id);
   const blocks = await getBlocks(id);
-  // console.log(blocks);
+  let database = []
+  if (page.id == "67c82e16-b73d-44d8-9f38-da979f879412") {
+    database = await getDatabase('452b268455aa40f5bae6db8669344ed6')
+  }
+  console.log(database);
+  console.log(page);
 
   return {
     props: {
       page,
       blocks,
+      database
     },
     revalidate: 1,
   };

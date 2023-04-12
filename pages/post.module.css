@@ -87,6 +87,7 @@
 .table {
   border: 1px solid currentColor;
   border-collapse: collapse;
+  margin: 17px 0;
 }
 .table th {
   border: 1px solid currentColor;
