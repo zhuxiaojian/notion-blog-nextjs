@@ -482,14 +482,14 @@ const renderBlock = (block, blocks) => {
       let html = "";
       // console.log(block);
       // console.log(block.properties['Name']?.title[0]?.plain_text);
-      toc.push(1);
-      if (toc.length < 2) {
-        blocks.map((b, i) => {
-          // console.log(b);
-          html += `<a style="color:#36c;display:block;margin:3px 0;overflow:hidden;cursor:pointer;" href="#${b.id}">- ${b.properties['Name']?.title[0]?.plain_text}</a>`
-        })
-        html =`<div style="position:fixed_;top:170px;right:30px;">${html}</div><div style="position:fixed;bottom:30px;right:30px;border:1px solid #000;border-radius:50%;width:30px;height:30px;text-align:center;line-height:27px;"><a href="#">⬆️</a><div>`
-      }
+      toc.push(block.properties['Name']?.title[0]?.plain_text);
+      // if (toc.length < 2) {
+      //   blocks.map((b, i) => {
+      //     // console.log(b);
+      //     html += `<a style="color:#36c;display:block;margin:3px 0;overflow:hidden;cursor:pointer;" href="#${b.id}">- ${encodeURIComponent(b.properties['Name']?.title[0]?.plain_text)}</a>`
+      //   })
+      //   html =`<div>${html}</div><div style="position:fixed;bottom:30px;right:30px;border:1px solid #000;border-radius:50%;width:30px;height:30px;text-align:center;line-height:27px;"><a href="#">⬆️</a><div>`
+      // }
       // console.log(toc);
       
       
@@ -497,7 +497,19 @@ const renderBlock = (block, blocks) => {
       if (!block.type) {
         return (
           <div>
-            <div dangerouslySetInnerHTML={{ __html: html }} />
+            {toc.length < 2 ? (
+              blocks.map((b, i) => {
+                  console.log(b);
+                  let id = "#" + b.id;
+                  return (
+                    <a style={{ "color": "#36c", "display": "block", "margin": "3px 0", "overflow": "hidden", "cursor": "pointer" }} href={id}>- {b.properties['Name']?.title[0]?.plain_text}</a>
+                  )
+                  
+                })
+
+            ) : (
+              <div></div>
+            )}
             <a style={{"display":"block","height":"0","overflow":"hidden"}}  name={block.id} className="seg-begin"><h2>{block.properties['Name']?.title[0]?.plain_text}</h2></a>
           <table className={styles.table}>
             <tbody>
