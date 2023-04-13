@@ -480,9 +480,10 @@ const renderBlock = (block, blocks) => {
     }
     default:
       let html = "";
-      // console.log(block);
+      // console.log(blocks[0].id);
+      // console.log(block.id);
       // console.log(block.properties['Name']?.title[0]?.plain_text);
-      toc.push(block.properties['Name']?.title[0]?.plain_text);
+      // toc.push(block.properties['Name']?.title[0]?.plain_text);
       // if (toc.length < 2) {
       //   blocks.map((b, i) => {
       //     // console.log(b);
@@ -497,9 +498,9 @@ const renderBlock = (block, blocks) => {
       if (!block.type) {
         return (
           <div>
-            {toc.length < 2 ? (
+            {blocks[0].id == block.id ? (
               blocks.map((b, i) => {
-                  console.log(b);
+                  // console.log(b);
                   let id = "#" + b.id;
                   return (
                     <a style={{ "color": "#36c", "display": "block", "margin": "3px 0", "overflow": "hidden", "cursor": "pointer" }} href={id}>- {b.properties['Name']?.title[0]?.plain_text}</a>
@@ -510,6 +511,8 @@ const renderBlock = (block, blocks) => {
             ) : (
               <div></div>
             )}
+
+            {blocks[0].id == block.id ? <div style={{ "position": "fixed", "bottom": "30px", "right": "30px", "border": "1px solid #000", "border-radius": "50%", "width": "30px", "height": "30px", "text-align": "center", "line-height": "30px","background": "#fff" }}><a href="#">⬆️</a></div> : ''}
             <a style={{"display":"block","height":"0","overflow":"hidden"}}  name={block.id} className="seg-begin"><h2>{block.properties['Name']?.title[0]?.plain_text}</h2></a>
           <table className={styles.table}>
             <tbody>
