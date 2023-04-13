@@ -5,6 +5,7 @@ import Link from "next/link";
 import { databaseId } from "./index.js";
 import styles from "./post.module.css";
 
+let toc = []
 export const Text = ({ text }) => {
   if (!text) {
     return null;
@@ -250,7 +251,7 @@ function setType(block) {
   }
 }
 
-const renderBlock = (block) => {
+const renderBlock = (block, blocks) => {
   const { type, id } = block;
   const value = block[type];
   // console.log(block);
@@ -457,14 +458,47 @@ const renderBlock = (block) => {
       )
     }
     case "child_database": {
+      let name = "";
+      let text = ""
+      let html = ""
+      // console.log(block);
+      // console.log(blocks);
+      // const segBeginElements = document.querySelectorAll('.seg-begin');
+      // segBeginElements.forEach(element => {
+      //   text = element.innerText;
+      //   name = "#" + element.name
+      //   html += `<a style="color:#36c;display:block;" href=${name}>- ${text}</a>`
+
+      //   console.log(text);
+      //   console.log(element.name);
+      // });
+
       return (
-        <div></div>
+          // <div dangerouslySetInnerHTML={{ __html: html }} />
+          <div></div>
       )
     }
     default:
+      let html = "";
       // console.log(block);
+      // console.log(block.properties['Name']?.title[0]?.plain_text);
+      toc.push(1);
+      if (toc.length < 2) {
+        blocks.map((b, i) => {
+          // console.log(b);
+          html += `<a style="color:#36c;display:block;margin:3px 0;overflow:hidden;cursor:pointer;" href="#${b.id}">- ${b.properties['Name']?.title[0]?.plain_text}</a>`
+        })
+        html =`<div style="position:fixed_;top:170px;right:30px;">${html}</div><div style="position:fixed;bottom:30px;right:30px;border:1px solid #000;border-radius:50%;width:30px;height:30px;text-align:center;line-height:27px;"><a href="#">⬆️</a><div>`
+      }
+      // console.log(toc);
+      
+      
+
       if (!block.type) {
         return (
+          <div>
+            <div dangerouslySetInnerHTML={{ __html: html }} />
+            <a style={{"display":"block","height":"0","overflow":"hidden"}}  name={block.id} className="seg-begin"><h2>{block.properties['Name']?.title[0]?.plain_text}</h2></a>
           <table className={styles.table}>
             <tbody>
               {Object.keys(block.properties).reverse()?.map((child, i) => {
@@ -495,6 +529,7 @@ const renderBlock = (block) => {
               })}
             </tbody>
           </table>
+          </div>
         );
       } else {
         return `❌ Unsupported block (${type === "unsupported" ? "unsupported by Notion API" : type
@@ -521,11 +556,11 @@ export default function Post({ page, blocks, database }) {
         </h1>
         <section>
           {blocks.map((block) => (
-            <Fragment key={block.id}>{renderBlock(block)}</Fragment>
+            <Fragment key={block.id}>{renderBlock(block, blocks)}</Fragment>
           ))}
           {
             database.map((databases) => (
-              <Fragment key={databases.id}>{renderBlock(databases)}</Fragment>
+              <Fragment key={databases.id}>{renderBlock(databases, database)}</Fragment>
             ))
           }
           {/* <Link href="/" className={styles.back}>
