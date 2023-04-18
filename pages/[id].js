@@ -566,7 +566,7 @@ export default function Post({ page, blocks, database }) {
       </Head>
 
       <article className={styles.container}>
-        <h1 className="notion-h2">
+        <h1 className={styles.notionH2}>
           <Text text={page.properties.Name.title} />
         </h1>
         <section>
@@ -582,6 +582,7 @@ export default function Post({ page, blocks, database }) {
             ← Go home
           </Link> */}
         </section>
+        <footer className={styles.footer}>by zhuxiaojian</footer>
       </article>
     </div>
   );

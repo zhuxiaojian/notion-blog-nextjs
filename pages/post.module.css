@@ -126,3 +126,20 @@
   }
 }
 
+.footer {
+  text-align: right;
+  color: #bbb;
+  text-align: right;
+  color: #bbb;;
+  height: 50px;;
+  line-height: 50px;;
+  padding-right: 40px;;
+  background: url("frog.png") no-repeat right center;
+  background-size: 30px;
+}
+
+.notionH2 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  
+}

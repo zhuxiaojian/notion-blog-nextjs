@@ -4,13 +4,14 @@ import { getDatabase } from "../lib/notion";
 import { Text } from "./[id].js";
 import styles from "./index.module.css";
 
+
 export const databaseId = process.env.NOTION_DATABASE_ID;
 
 export default function Home({ posts }) {
   return (
     <div>
       <Head>
-        <title>Stay Young, Stay Simple</title>
+        <title>Stay Simple, Stay Young</title>
         <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" />
       </Head>
 
@@ -68,7 +69,8 @@ export default function Home({ posts }) {
         <ol className={styles.posts}>
           {posts.map((post) => {
             const date = new Date(post.last_edited_time).toLocaleString(
-              "en-US",
+              // "en-US",
+              "zh-CN",
               {
                 month: "short",
                 day: "2-digit",
@@ -84,11 +86,12 @@ export default function Home({ posts }) {
                 </h3>
 
                 <p className={styles.postDescription}>{date}</p>
-                <div style={{textAlign: "left"}}><Link href={`/${post.id}`}>查看更多 →</Link></div>
+                {/* <div style={{textAlign: "left"}}><Link href={`/${post.id}`}>查看更多 →</Link></div> */}
               </li>
             );
           })}
         </ol>
+        <footer className={styles.footer}> by zhuxiaojian</footer>
       </main>
     </div>
   );

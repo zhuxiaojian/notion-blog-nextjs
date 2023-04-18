@@ -53,6 +53,7 @@
 .postTitle {
   margin-bottom: 10px;
   font-size: 1.4rem;
+  
 }
 
 .postTitle a {
@@ -67,4 +68,14 @@
   margin-top: 0;
   margin-bottom: 12px;
   opacity: 0.65;
+}
+
+.footer{
+  text-align: right;
+  color: #bbb;;
+  height: 50px;;
+  line-height: 50px;;
+  padding-right: 40px;;
+  background: url("frog.png") no-repeat right center;
+  background-size: 30px;;
 }
