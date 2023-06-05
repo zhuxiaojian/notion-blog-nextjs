@@ -4338,6 +4338,7 @@ ol.charts-css li {
 
 .charts-css.column.show-labels, .charts-css.area.show-labels, .charts-css.line.show-labels {
   --labels-size: 1.5rem;
+  font-size: 12px;
 }
 
 .charts-css.column.show-labels tbody tr th, .charts-css.area.show-labels tbody tr th, .charts-css.line.show-labels tbody tr th {
