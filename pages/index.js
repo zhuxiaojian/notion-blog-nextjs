@@ -12,7 +12,7 @@ export default function Home({ posts }) {
     <div>
       <Head>
         <title>Stay Simple, Stay Young</title>
-        <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" />
+        <link rel="icon" href="https://www.12050231.xyz/_next/static/media/frog.f5e5f22d.png" />
       </Head>
 
       <main className={styles.container}>
@@ -92,6 +92,7 @@ export default function Home({ posts }) {
           })}
         </ol>
         <footer className={styles.footer}> by zhuxiaojian</footer>
+        <img style={{marginTop:10,borderRadius:10}} src="https://zhuxiaojian.oss-cn-shanghai.aliyuncs.com/assets/wechat.jpg" />
       </main>
     </div>
   );
