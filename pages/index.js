@@ -3,11 +3,41 @@ import Link from "next/link";
 import { getDatabase } from "../lib/notion";
 import { Text } from "./[id].js";
 import styles from "./index.module.css";
+import { useEffect } from 'react';
 
 
 export const databaseId = process.env.NOTION_DATABASE_ID;
 
 export default function Home({ posts }) {
+  useEffect(() => {
+    // 在组件挂载后执行的代码
+    // 这里可以执行任何JavaScript代码，例如API调用、事件监听等
+    (function () {
+      'use strict';
+      const SCRIPT_URL = 'https://dldir1.qq.com/WechatWebDev/devPlatform/px.min.js';
+      const param = {
+        maskMode: 'no-mask', // 隐私策略, all-mask 或 no-mask, 详见：https://www.npmjs.com/package/@wxobs/miniprogram-sdk#%E6%96%87%E6%A1%A3
+        recordCanvas: false, // 若要采集canvas, 设为true
+        projectId: 'wx3b50299655394441-3EdDfW0rf-.6Ec',
+        attrs: {}, // 对回放添加自定义属性，在管理端可通过属性筛选回放 (对象中 key 和 value 类型必须为 string)
+      };
+      const scriptEle = document.createElement('script');
+      scriptEle.type = 'text/javascript';
+      scriptEle.async = true;
+      scriptEle.onload = function () {
+        window.__startPX(param); // 启动采集，返回 Promise<{ sessionId: string }>
+      };
+      scriptEle.src = SCRIPT_URL;
+      document.getElementsByTagName('script')[0].parentNode.appendChild(scriptEle);
+
+    })();
+    return () => {
+      // 在组件卸载前执行的代码
+      // 这里可以执行任何JavaScript代码，例如清除定时器、取消事件监听等
+      console.log('组件即将卸载');
+    };
+
+  }, []);
   return (
     <div>
       <Head>
