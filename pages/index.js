@@ -122,7 +122,7 @@ export default function Home({ posts }) {
           })}
         </ol>
         <footer className={styles.footer}> by zhuxiaojian</footer>
-        <img style={{marginTop:10,borderRadius:10}} src="https://zhuxiaojian.oss-cn-shanghai.aliyuncs.com/assets/wechat.jpg" />
+        {/* <img style={{marginTop:10,borderRadius:10}} src="https://zhuxiaojian.oss-cn-shanghai.aliyuncs.com/assets/wechat.jpg" /> */}
       </main>
     </div>
   );

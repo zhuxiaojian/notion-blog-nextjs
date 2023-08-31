@@ -498,10 +498,11 @@ const renderBlock = (block, blocks) => {
       if (!block.type) {
         return (
           <div>
-            {blocks[0].id == block.id ? (
+            {blocks[0].id == block.id && block.parent.database_id != "ad3368d5-4090-46e0-a8c7-316e6d485988" ? (
               blocks.map((b, i) => {
-                  // console.log(b);
+                console.log(block);
                   let id = "#" + b.id;
+                
                   return (
                     <a style={{ "color": "#36c", "display": "block", "margin": "3px 0", "overflow": "hidden", "cursor": "pointer" }} href={id}>- {b.properties['Name']?.title[0]?.plain_text}</a>
                   )
@@ -538,6 +539,7 @@ const renderBlock = (block, blocks) => {
                         </RowElement>
                       );
                     })}
+                    {/* {block.properties[child]?.number} */}
                     
                   </tr>
                 );
@@ -603,11 +605,37 @@ export const getStaticProps = async (context) => {
   const page = await getPage(id);
   const blocks = await getBlocks(id);
   let database = []
-  if (page.id == "67c82e16-b73d-44d8-9f38-da979f879412") {
-    database = await getDatabase('452b268455aa40f5bae6db8669344ed6')
+  // if (page.id == "67c82e16-b73d-44d8-9f38-da979f879412") {
+    // database = await getDatabase('452b268455aa40f5bae6db8669344ed6')
+  // }
+  if (page.parent.type == "database_id") {
+    // console.log(await getDatabase(page.parent.database_id));
+    // database = await getDatabase('ad3368d5409046e0a8c7316e6d485988')
+    // database = await getDatabase(page.parent.database_id)
+    for (let index = 0; index < blocks.length; index++) {
+      const element = blocks[index];
+      if (element.type == "child_database") {
+        database = await getDatabase(element.id)
+      }
+      
+    }
+    // blocks.map(async (data) => { 
+    //   console.log(data);
+    //   if (data.type == "child_database") {
+    //     database = await getDatabase(data.id)
+    //   }
+    // })
+
+
+    // if (database.parent.type) {
+      
+    // }
   }
-  console.log(database);
-  console.log(page);
+  // console.log(database.parent);
+  // console.log("=======");
+  // console.log(blocks);
+  // console.log("=======");
+  // console.log(database);
 
   return {
     props: {
