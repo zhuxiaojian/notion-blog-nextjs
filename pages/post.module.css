@@ -89,6 +89,11 @@
   border-collapse: collapse;
   margin: 17px 0;
 }
+.table.realTable {
+  border: 1px solid currentColor;
+  border-collapse: collapse;
+  margin: 2px;
+}
 .table th {
   border: 1px solid currentColor;
   background-color: rgb(242, 242, 242);

@@ -496,8 +496,9 @@ const renderBlock = (block, blocks) => {
       
 
       if (!block.type) {
+        
         return (
-          <div>
+          <>
             {blocks[0].id == block.id && block.parent.database_id != "ad3368d5-4090-46e0-a8c7-316e6d485988" ? (
               blocks.map((b, i) => {
                 console.log(block);
@@ -515,38 +516,38 @@ const renderBlock = (block, blocks) => {
 
             {blocks[0].id == block.id ? <div style={{ "position": "fixed", "bottom": "30px", "right": "30px", "border": "1px solid #000", "border-radius": "50%", "width": "30px", "height": "30px", "text-align": "center", "line-height": "30px","background": "#fff" }}><a href="#">⬆️</a></div> : ''}
             <a style={{"display":"block","height":"0","overflow":"hidden"}}  name={block.id} className="seg-begin"><h2>{block.properties['Name']?.title[0]?.plain_text}</h2></a>
-          <table className={styles.table}>
-            <tbody>
+
+            {blocks[0].id ? <table className={`${styles.table}  ${styles.realTable}`}>
+              <tbody><tr>
               {Object.keys(block.properties).reverse()?.map((child, i) => {
                 // console.log(child,i);
                 const RowElement = "td";
                 return (
-                  <tr key={i}>
-                    {/* {console.log(block.properties)} */}
+                  <>
+                    {/* {console.log(block.properties[child].rich_text)} */}
                     {/* {console.log(block.properties[child])} */}
-                    {block.properties[child]?.title?.map((cell, i) => {
-                      return (
-                        <th key={`${cell.plain_text}-${i}`}>
-                          {cell.plain_text}
-                        </th>
-                      );
-                    })}
                     {block.properties[child]?.rich_text?.map((cell, i) => {
-                      // { console.log(cell) }
                       return (
                         <RowElement key={`${cell.plain_text}-${i}`}>
                           {cell.plain_text}
                         </RowElement>
                       );
                     })}
+                    {block.properties[child]?.title?.map((cell, i) => {
+                      return (
+                        <RowElement key={`${cell.plain_text}-${i}`}>
+                            {cell.plain_text}
+                        </RowElement>
+                      );
+                    })}
                     {/* {block.properties[child]?.number} */}
                     
-                  </tr>
+                  </>
                 );
               })}
-            </tbody>
-          </table>
-          </div>
+              </tr></tbody>
+          </table> : ''}
+          </>
         );
       } else {
         return `❌ Unsupported block (${type === "unsupported" ? "unsupported by Notion API" : type
