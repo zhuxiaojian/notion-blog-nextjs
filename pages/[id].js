@@ -565,7 +565,7 @@ export default function Post({ page, blocks, database }) {
     <div>
       <Head>
         <title>{page.properties.Name.title[0].plain_text}</title>
-        <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" />
+        {/* <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" /> */}
       </Head>
 
       <article className={styles.container}>
