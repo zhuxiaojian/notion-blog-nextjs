@@ -496,9 +496,11 @@ const renderBlock = (block, blocks) => {
       
 
       if (!block.type) {
-        
+        // let a1 = '<table className={`${styles.table}  ${styles.realTable}`}><tbody>'
         return (
           <>
+            {/* {blocks[0].id == block.id ? a1 : ""} */}
+            
             {blocks[0].id == block.id && block.parent.database_id != "ad3368d5-4090-46e0-a8c7-316e6d485988" ? (
               blocks.map((b, i) => {
                 console.log(block);
@@ -516,7 +518,7 @@ const renderBlock = (block, blocks) => {
 
             {blocks[0].id == block.id ? <div style={{ "position": "fixed", "bottom": "30px", "right": "30px", "border": "1px solid #000", "border-radius": "50%", "width": "30px", "height": "30px", "text-align": "center", "line-height": "30px","background": "#fff" }}><a href="#">⬆️</a></div> : ''}
             <a style={{"display":"block","height":"0","overflow":"hidden"}}  name={block.id} className="seg-begin"><h2>{block.properties['Name']?.title[0]?.plain_text}</h2></a>
-
+            
             {blocks[0].id ? <table className={`${styles.table}  ${styles.realTable}`}>
               <tbody><tr>
               {Object.keys(block.properties).reverse()?.map((child, i) => {
@@ -565,7 +567,7 @@ export default function Post({ page, blocks, database }) {
     <div>
       <Head>
         <title>{page.properties.Name.title[0].plain_text}</title>
-        {/* <link rel="icon" href="https://res.suning.cn/project/cmsWeb/suning/yzsc/images/yz-icon.png" /> */}
+        <link rel="icon" href="https://www.12050231.xyz/_next/static/media/frog.f5e5f22d.png" />
       </Head>
 
       <article className={styles.container}>
